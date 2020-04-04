@@ -1,0 +1,24 @@
+.cardArea {
+    width: 50%;
+    margin: 0 auto;
+    border: 1px solid;
+    margin-bottom: 8px;
+
+    div {
+        padding: 8px 0;
+        &:nth-child(2n+1) {
+            background: beige;
+        }
+    }
+
+    .sections {
+        display: inline-block;
+        width: 50%;
+        text-align: center;
+
+        &.anchor {
+            cursor: pointer;
+            text-decoration: underline;
+        }
+    }
+}
