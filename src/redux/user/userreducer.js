@@ -9,7 +9,7 @@ const INITIAL_STATE = {
 const userreducer = (state=INITIAL_STATE, action) => {
     switch(action.type) {
         case "SET_FORM_DATA":
-            return {...state, data: action.payload};
+            return { data: action.payload };
         default:
             return state;
     }

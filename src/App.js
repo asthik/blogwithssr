@@ -16,16 +16,15 @@ class App extends React.Component {
   }
 
   handleComments = (commentItem, id) => {
-    // console.log(commentItem);
-    let cloneData = [...this.props.data.data];
+    let cloneData = [...this.props.data];
     cloneData[commentItem.id].comments = commentItem.comments;
-    this.props.setFormdata({ data: cloneData });
+    this.props.setFormdata(cloneData);
 
   }
   // below for homepage func comp
   addTodo = (entryvalue) => {
     let newTodos  = [...this.props.data, {...entryvalue}];
-    this.props.setFormdata({ data: newTodos });
+    this.props.setFormdata(newTodos);
   }
 
   render() {
@@ -40,7 +39,7 @@ class App extends React.Component {
               />
           <Route path="/comments/:id" render={(props) => {
               const id = parseInt(props.match.params.id);
-              const data = this.props.data.data[id];
+              const data = this.props.data[id];
               if(data) {
                   return <CommentsPage {...props} {...data} id={id} commentsAdd={this.handleComments}/>
               } else return <PageNotFound />

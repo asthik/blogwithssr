@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import './Commentspage.scss';
 
 const Commentspage = props => {
@@ -24,6 +25,7 @@ const Commentspage = props => {
         <div className="commentspage container">
             <form onSubmit={handleSubmit}>
             <h2>Comments Section</h2>
+                <Link to="/" className="links">Home</Link>
                 <div>
                     <span className="label-headers"><b>Title: </b></span>
                     <span>{props.title}</span>
