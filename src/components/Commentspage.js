@@ -1,23 +1,30 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Commentspage.scss';
+import { connect } from 'react-redux';
+import { setFormdata } from '../redux/user/useraction';
 
 const Commentspage = props => {
     const [comments, setComments] = useState('');
+    let id = props.match.params.id;
+    let currData = props.data[id];
     
     function returnTags() {
         return  <div className="existComment">
                     <span className="label-headers"><b>Comments: </b></span>
-                    <span>{props.comments}</span>
+                    <span>{currData.comments}</span>
                 </div>
     }
 
     const handleSubmit = e => {
       e.preventDefault();
-      props.commentsAdd({
-          "comments" : comments,
-           "id": props.id
-      });
+      let commentObj = {
+        "comments" : comments,
+        "id": id
+      };
+      let cloneData = [...props.data];
+      cloneData[commentObj.id].comments = commentObj.comments;
+      props.setFormdata(cloneData);
       setComments('');
     }
   
@@ -28,14 +35,14 @@ const Commentspage = props => {
                 <Link to="/" className="links">Home</Link>
                 <div>
                     <span className="label-headers"><b>Title: </b></span>
-                    <span>{props.title}</span>
+                    <span>{currData.title}</span>
                 </div>
                 <div>
                     <span className="label-headers"><b>Contents: </b></span>
-                    <span>{props.contents}</span>
+                    <span>{currData.contents}</span>
                 </div>
                 
-                {props.comments !== undefined ? returnTags(): ''}
+                {currData.comments !== undefined ? returnTags(): ''}
                 <div>
                     <span className="label-headers"><b>Add Comments:</b></span>
                     <textarea name="comments" onChange={e => setComments(e.target.value)} 
@@ -47,4 +54,9 @@ const Commentspage = props => {
     );
 
 }
-export default Commentspage;
+
+const mapStateToProps = state => ({
+    data: state.user.data
+});
+
+export default connect(mapStateToProps, {setFormdata})(Commentspage);

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import './Homepage.scss';
+import './App.scss';
 import { connect } from 'react-redux';
-import {setFormdata} from '../redux/user/useraction';
+import { setFormdata } from '../redux/user/useraction';
 
 const Homepage = (props) => {
     const [title, setTitle] = useState('');
@@ -14,26 +15,27 @@ const Homepage = (props) => {
         author.trim() === ""){
         btnClass = btnClass + " disabled";
     }
-    // const { otherProps, onAdd } = this.props;
-    
+
     const handleSave = e => {
       e.preventDefault();
-      props.addTodo({
-          "title" : title, 
-          "contents" : contents, 
-          "author" : author
-      });
+      let newTodos  = [...props.data, {
+        "title" : title, 
+        "contents" : contents, 
+        "author" : author           
+      }];
+      console.log('NEW TODOS ARE: ', newTodos);
+      props.setFormdata(newTodos);
       setTitle('');
       setContents('');
       setAuthor('');
       props.history.push('/blog');
     }
   
+
     return (
       <div className="homepage">
         <form onSubmit={handleSave} className="formcontainer">
             <h2>Designer's Blog</h2>
-            {/* <h4>Details for the Blog</h4> */}
             <div className="labels">
                     <span>Blog Title:</span>
                     <input type="text" value={title} onChange={e => setTitle(e.target.value)}/>
@@ -47,10 +49,15 @@ const Homepage = (props) => {
                 <span>Author:</span>
                 <input type="text" className="" value={author} onChange={e => setAuthor(e.target.value)}/>
             </div>
-            <input type="Submit" value="Submit" className={btnClass} />
+            <input type="submit" value="Submit" className={btnClass} />
         </form>
       </div>
     );
 }
 
-export default Homepage;
+const mapStateToProps = state => ({
+    data: state.user.data
+});
+const mapDispatchToProps = { setFormdata };
+
+export default connect(mapStateToProps, mapDispatchToProps)(Homepage);

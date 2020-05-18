@@ -1,9 +1,10 @@
 import React from 'react';
 import './Blogpage.scss';
-import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { setFormdata } from '../redux/user/useraction';
 
 const Blogpage = (props) => {
-    let loopArr = props.blogProps.data == undefined ? props.blogProps : props.blogProps.data;
+    let loopArr = props.data;
 
     return (
         <div className="blogpage">
@@ -30,4 +31,8 @@ const Blogpage = (props) => {
         );
 }
 
-export default Blogpage;
+const mapStateToProps = state => ({
+    data: state.user.data
+});
+
+export default connect(mapStateToProps)(Blogpage);
